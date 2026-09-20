@@ -1,0 +1,98 @@
+<div class="profile-page">
+  <h1>Profile</h1>
+  <p class="lead">Your account and how you sign in.</p>
+
+  <section class="panel account">
+    <div class="panel-head">
+      <div>
+        <h2>Account</h2>
+        @if (user(); as current) {
+          <p>{{ current.email }} · member since {{ current.created_at | date: 'MMMM y' }}</p>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Two-step verification</h2>
+        <p>Sign in with a code from an authenticator app as well as your password.</p>
+      </div>
+      @if (user(); as current) {
+        <span class="state" [class.on]="current.two_factor_enabled">{{ current.two_factor_enabled ? 'On' : 'Off' }}</span>
+      }
+    </div>
+
+    @if (recoveryCodes(); as codes) {
+      <div class="recovery">
+        <h3>Save your recovery codes</h3>
+        <p>
+          If you lose your phone, each of these codes lets you sign in once. This is the only time they are shown, so
+          keep them somewhere safe.
+        </p>
+        <ul class="codes">
+          @for (code of codes; track code) {
+            <li>{{ code }}</li>
+          }
+        </ul>
+        <div class="actions">
+          <button type="button" class="secondary" (click)="copyRecoveryCodes()">{{ copied() ? 'Copied' : 'Copy' }}</button>
+          <button type="button" class="secondary" (click)="downloadRecoveryCodes()">Download</button>
+        </div>
+        <label class="ack">
+          <input type="checkbox" [checked]="savedCodes()" (change)="savedCodes.set($any($event.target).checked)" />
+          I have saved these codes
+        </label>
+        <button type="button" class="primary" [disabled]="!savedCodes()" (click)="finishRecoveryCodes()">Done</button>
+      </div>
+    } @else if (setup(); as pending) {
+      <ol class="steps">
+        <li>
+          <strong>Scan this QR code</strong> with Microsoft Authenticator, Google Authenticator or any authenticator app.
+          <div class="qr">
+            @if (qrImage(); as image) {
+              <img [src]="image" alt="QR code to add LegalLens to your authenticator app" />
+            }
+          </div>
+          <details>
+            <summary>Cannot scan? Enter the key by hand</summary>
+            <code class="secret">{{ pending.secret }}</code>
+          </details>
+        </li>
+        <li>
+          <strong>Enter the 6-digit code</strong> the app shows to confirm it works.
+          <form [formGroup]="codeForm" (ngSubmit)="confirmSetup()" class="code-form">
+            <input type="text" formControlName="code" inputmode="numeric" maxlength="7" autocomplete="one-time-code" placeholder="123456" />
+            <button type="submit" class="primary" [disabled]="busy()">Turn on</button>
+            <button type="button" class="secondary" (click)="cancelSetup()">Cancel</button>
+          </form>
+          @if (errorMessage()) {
+            <div class="form-error">{{ errorMessage() }}</div>
+          }
+        </li>
+      </ol>
+    } @else if (user()?.two_factor_enabled) {
+      @if (disabling()) {
+        <form [formGroup]="codeForm" (ngSubmit)="confirmDisabling()" class="code-form stacked">
+          <p>Enter a code from your app (or a recovery code) to turn this off.</p>
+          <div class="row">
+            <input type="text" formControlName="code" maxlength="16" autocomplete="one-time-code" placeholder="Code" />
+            <button type="submit" class="danger" [disabled]="busy()">Turn off</button>
+            <button type="button" class="secondary" (click)="cancelDisabling()">Cancel</button>
+          </div>
+          @if (errorMessage()) {
+            <div class="form-error">{{ errorMessage() }}</div>
+          }
+        </form>
+      } @else {
+        <button type="button" class="secondary" (click)="startDisabling()">Turn off two-step verification</button>
+      }
+    } @else if (user()) {
+      <button type="button" class="primary" [disabled]="busy()" (click)="startSetup()">Set up two-step verification</button>
+      @if (errorMessage()) {
+        <div class="form-error">{{ errorMessage() }}</div>
+      }
+    }
+  </section>
+</div>

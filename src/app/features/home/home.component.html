@@ -1,0 +1,114 @@
+<section class="hero">
+  <div class="hero-blob"></div>
+
+  <div
+    class="illustration"
+    [style.--mx]="mouseX()"
+    [style.--my]="mouseY()"
+    (mousemove)="onIllustrationMove($event)"
+    (mouseleave)="onIllustrationLeave()"
+  >
+    <svg class="paper paper-back" viewBox="0 0 440 520" aria-hidden="true">
+      <rect x="34" y="26" width="360" height="470" rx="18" fill="#f3efe6" />
+    </svg>
+
+    <svg class="paper paper-front" viewBox="0 0 440 520" aria-hidden="true">
+      <rect x="20" y="14" width="360" height="470" rx="18" fill="#ffffff" stroke="#ece7de" stroke-width="2" />
+      <rect x="56" y="58" width="140" height="14" rx="7" fill="#d9d3c6" />
+      <rect x="56" y="96" width="288" height="10" rx="5" fill="#eae6dc" />
+      <rect x="56" y="118" width="260" height="10" rx="5" fill="#eae6dc" />
+      <rect x="56" y="140" width="288" height="10" rx="5" fill="#eae6dc" />
+
+      <rect x="48" y="172" width="304" height="46" rx="10" fill="#fdeeea" />
+      <rect x="64" y="184" width="220" height="10" rx="5" fill="#f0a99a" />
+      <rect x="64" y="202" width="160" height="10" rx="5" fill="#f0a99a" />
+
+      <rect x="56" y="240" width="288" height="10" rx="5" fill="#eae6dc" />
+      <rect x="56" y="262" width="230" height="10" rx="5" fill="#eae6dc" />
+      <rect x="56" y="284" width="288" height="10" rx="5" fill="#eae6dc" />
+      <rect x="56" y="306" width="200" height="10" rx="5" fill="#eae6dc" />
+
+      <rect x="48" y="338" width="304" height="46" rx="10" fill="#fff4e0" />
+      <rect x="64" y="350" width="240" height="10" rx="5" fill="#f0c178" />
+      <rect x="64" y="368" width="180" height="10" rx="5" fill="#f0c178" />
+
+      <rect x="56" y="406" width="288" height="10" rx="5" fill="#eae6dc" />
+      <rect x="56" y="428" width="250" height="10" rx="5" fill="#eae6dc" />
+    </svg>
+
+    <div class="floating-badge badge-high">
+      <app-risk-badge severity="high" />
+      <span>Uncapped liability</span>
+    </div>
+    <div class="floating-badge badge-medium">
+      <app-risk-badge severity="medium" />
+      <span>Auto-renewal</span>
+    </div>
+
+    <svg class="lens" viewBox="0 0 140 140" aria-hidden="true">
+      <defs>
+        <linearGradient id="lensGradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#5b6bf9" />
+          <stop offset="1" stop-color="#8f5bf9" />
+        </linearGradient>
+      </defs>
+      <circle cx="56" cy="56" r="42" fill="rgba(255,255,255,0.55)" stroke="url(#lensGradient)" stroke-width="10" />
+      <line x1="86" y1="86" x2="122" y2="122" stroke="url(#lensGradient)" stroke-width="14" stroke-linecap="round" />
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <span class="eyebrow">AI-assisted contract review</span>
+    <h1>Know what you're signing<br />before you sign it.</h1>
+    <p class="hero-sub">
+      LegalLens reads a contract clause by clause and flags the ones worth a second look —
+      in plain English, not legalese.
+    </p>
+
+    <div class="get-started">
+      @if (isAuthenticated()) {
+        <p class="welcome-back">Hey, you're already logged in — let's get started.</p>
+        <a class="primary-button" routerLink="/dashboard">Go to your dashboard →</a>
+      } @else {
+        <a class="primary-button" routerLink="/register">Get Started</a>
+        <p class="auth-switch">
+          Already have an account? <a routerLink="/login">Log in</a>
+        </p>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <ol class="steps">
+    <li class="step">
+      <span class="step-number">1</span>
+      <div>
+        <h3>Upload</h3>
+        <p>Drop in a PDF, Word or text file.</p>
+      </div>
+    </li>
+    <li class="step">
+      <span class="step-number">2</span>
+      <div>
+        <h3>Analyse</h3>
+        <p>Every clause is classified and checked against 19 risk types.</p>
+      </div>
+    </li>
+    <li class="step">
+      <span class="step-number">3</span>
+      <div>
+        <h3>Review</h3>
+        <p>See what needs attention, ranked by severity, with the exact clause.</p>
+      </div>
+    </li>
+  </ol>
+
+  <p class="facts">
+    <span>PDF, DOCX &amp; TXT</span>
+    <span>100 clause types</span>
+    <span>19 risk categories</span>
+    <span>Fine-tuned Legal-BERT</span>
+    <span>Private to your account</span>
+  </p>
+</section>

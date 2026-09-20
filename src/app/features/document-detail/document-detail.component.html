@@ -1,0 +1,192 @@
+<div class="report-page">
+  <a class="back-link" routerLink="/dashboard">← Back to dashboard</a>
+
+  @if (loading()) {
+    <p class="empty-state">Loading analysis…</p>
+  } @else if (loadError() || !report()) {
+    <p class="empty-state">Couldn't load this document.</p>
+  } @else {
+    @let doc = report()!;
+
+    <header class="report-header">
+      <h1>{{ doc.filename }}</h1>
+      <div class="report-meta">
+        <app-status-badge [status]="doc.status" />
+        <span>{{ doc.clauses.length }} clauses reviewed</span>
+      </div>
+    </header>
+
+    <section class="summary" [attr.data-level]="overall() ?? 'none'">
+      <div class="summary-text">
+        <span class="eyebrow">Overall assessment</span>
+        <h2>{{ headline() }}</h2>
+        <p>
+          @if (keyFindings().length) {
+            {{ keyFindings().length }} specific {{ keyFindings().length === 1 ? 'finding' : 'findings' }} across
+            {{ doc.clauses.length }} clauses.
+          } @else {
+            No clause matched a specific risk category.
+          }
+          @if (otherFindings().length) {
+            {{ otherFindings().length }} more flagged by the general model.
+          }
+        </p>
+      </div>
+      <div class="summary-counts">
+        @for (severity of severityChips(); track severity) {
+          <button
+            type="button"
+            class="count"
+            [attr.data-severity]="severity"
+            [class.active]="severityFilter() === severity"
+            (click)="toggleFilter(severity)"
+          >
+            <strong>{{ keyCounts()[severity] }}</strong>
+            <span>{{ severity }}</span>
+          </button>
+        }
+      </div>
+    </section>
+
+    <section class="map">
+      <div class="section-head">
+        <h2>Where the risk sits</h2>
+        <ul class="legend">
+          <li><i class="dot" data-severity="high"></i>High</li>
+          <li><i class="dot" data-severity="medium"></i>Medium</li>
+          <li><i class="dot" data-severity="low"></i>Low</li>
+          <li><i class="dot" data-tier="other"></i>General flag</li>
+          <li><i class="dot" data-tier="none"></i>No flag</li>
+        </ul>
+      </div>
+      <div class="strip">
+        @for (segment of strip(); track segment.id) {
+          <button
+            type="button"
+            class="segment"
+            [attr.data-severity]="segment.severity"
+            [attr.data-tier]="segment.tier"
+            [title]="segment.title"
+            [attr.aria-label]="segment.title"
+            (click)="jumpToClause(segment.id)"
+          ></button>
+        }
+      </div>
+      <div class="strip-scale"><span>Start of document</span><span>End</span></div>
+    </section>
+
+    <section class="findings">
+      <div class="section-head">
+        <h2>Key findings</h2>
+        @if (severityFilter() !== 'all') {
+          <button type="button" class="link" (click)="severityFilter.set('all')">
+            Showing {{ severityFilter() }} only · clear filter
+          </button>
+        }
+      </div>
+
+      @if (visibleKey().length === 0) {
+        <p class="empty-note">
+          {{ keyFindings().length ? 'No key findings at this severity.' : 'No clause matched a specific risk category.' }}
+        </p>
+      }
+
+      @for (finding of visibleKey(); track finding.risk.id) {
+        <article class="finding" [attr.data-severity]="finding.risk.severity">
+          <div class="finding-top">
+            <app-risk-badge [severity]="finding.risk.severity" />
+            <h3>{{ riskTitle(finding.risk.risk_type) }}</h3>
+            <span class="confidence">{{ percent(finding.risk.confidence) }} confidence</span>
+          </div>
+          <p class="why">{{ finding.risk.explanation }}</p>
+          <blockquote class="excerpt" [class.clamped]="!isExpanded(finding.risk.id)">{{ finding.excerpt }}</blockquote>
+          <div class="finding-actions">
+            <span class="ref">{{ finding.label }}</span>
+            @if (finding.excerpt.length > 260) {
+              <button type="button" class="link" (click)="toggleExpanded(finding.risk.id)">
+                {{ isExpanded(finding.risk.id) ? 'Show less' : 'Show full clause' }}
+              </button>
+            }
+            <button type="button" class="link" (click)="jumpToClause(finding.clause.id)">View in document ↓</button>
+          </div>
+        </article>
+      }
+    </section>
+
+    @if (otherFindings().length) {
+      <section class="collapsible">
+        <button type="button" class="section-toggle" [attr.aria-expanded]="showOther()" (click)="showOther.set(!showOther())">
+          <span class="toggle-title">Also worth a look <em>({{ otherFindings().length }})</em></span>
+          <span class="toggle-sub">
+            Flagged by the broader severity model rather than a specific risk category —
+            {{ otherCounts().high }} high, {{ otherCounts().medium }} medium, {{ otherCounts().low }} low.
+            Expect some false alarms.
+          </span>
+          <span class="chevron" aria-hidden="true">{{ showOther() ? '−' : '+' }}</span>
+        </button>
+
+        @if (showOther()) {
+          <ul class="other-list">
+            @for (finding of visibleOther(); track finding.risk.id) {
+              <li>
+                <app-risk-badge [severity]="finding.risk.severity" />
+                <span class="ref">{{ finding.label }}</span>
+                <span class="other-excerpt">{{ finding.excerpt }}</span>
+                <span class="confidence">{{ percent(finding.risk.confidence) }}</span>
+                <button type="button" class="link" (click)="jumpToClause(finding.clause.id)">View ↓</button>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    }
+
+    <section class="collapsible">
+      <button
+        type="button"
+        class="section-toggle"
+        [attr.aria-expanded]="showFullDocument()"
+        (click)="showFullDocument.set(!showFullDocument())"
+      >
+        <span class="toggle-title">Full document <em>({{ doc.clauses.length }} clauses)</em></span>
+        <span class="toggle-sub">Every clause in order, with flagged ones highlighted.</span>
+        <span class="chevron" aria-hidden="true">{{ showFullDocument() ? '−' : '+' }}</span>
+      </button>
+
+      @if (showFullDocument()) {
+        <label class="only-flagged">
+          <input type="checkbox" [checked]="onlyFlagged()" (change)="onlyFlagged.set($any($event.target).checked)" />
+          Show only flagged clauses
+        </label>
+
+        <div class="clause-list">
+          @for (clause of visibleClauses(); track clause.id) {
+            <article
+              class="clause"
+              [id]="'clause-' + clause.id"
+              [attr.data-severity]="topSeverity(clause.risks)"
+              [class.highlight]="highlightedClauseId() === clause.id"
+            >
+              <header class="clause-header">
+                <span class="ref">{{ clauseLabel(clause) }}</span>
+                @if (typeLabel(clause); as label) {
+                  <span class="clause-type">{{ label }}</span>
+                }
+              </header>
+              <p class="clause-text">{{ clauseExcerpt(clause) }}</p>
+              @for (risk of clause.risks; track risk.id) {
+                <div class="risk-line">
+                  <app-risk-badge [severity]="risk.severity" />
+                  <div>
+                    <strong>{{ riskTitle(risk.risk_type) }}</strong>
+                    <p>{{ risk.explanation }}</p>
+                  </div>
+                </div>
+              }
+            </article>
+          }
+        </div>
+      }
+    </section>
+  }
+</div>

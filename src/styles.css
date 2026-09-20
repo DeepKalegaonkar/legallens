@@ -1,0 +1,65 @@
+:root {
+  --page-bg: linear-gradient(180deg, #f2efe9 0%, #fbf9f6 100%);
+  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-width: 320px;
+  font-family: var(--font-body);
+  font-weight: 350;
+}
+
+body { -webkit-font-smoothing: antialiased; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+button, input, textarea, select { font-family: inherit; }
+
+/* ---------- Page transitions (router withViewTransitions) ---------- */
+
+/* Only the routed page animates; the navbar and background stay put. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-group(page) {
+  animation: none;
+}
+
+::view-transition-old(page) {
+  animation: page-out 200ms ease-in both;
+}
+
+::view-transition-new(page) {
+  animation: page-in 400ms cubic-bezier(0.2, 0.7, 0.2, 1) 120ms both;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.985);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.985);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(page),
+  ::view-transition-new(page) {
+    animation: none;
+  }
+}

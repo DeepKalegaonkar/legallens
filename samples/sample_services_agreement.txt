@@ -1,0 +1,93 @@
+SERVICES AGREEMENT
+
+This Services Agreement ("Agreement") is made on 1 April 2026 at Bengaluru between Asha Retail Private Limited, a company incorporated under the Companies Act, 2013 and having its registered office at 14 Residency Road, Bengaluru 560025 ("Client"), and Tandem Software Services LLP, a limited liability partnership registered under the Limited Liability Partnership Act, 2008 and having its office at 8 Lake View Road, Pune 411001 ("Service Provider").
+
+1. Definitions and Interpretation
+(a) "Services" means the software development, maintenance and support services described in Schedule A.
+(b) "Deliverables" means all code, documentation, designs and other work product created by the Service Provider in the course of providing the Services.
+(c) Headings are for convenience only and shall not affect the interpretation of this Agreement.
+
+2. Term and Renewal
+(a) This Agreement commences on the Effective Date and continues for an initial term of two (2) years.
+(b) On expiry of the initial term, this Agreement shall automatically renew for successive periods of one (1) year each, unless either party gives written notice of non-renewal not less than one hundred and eighty (180) days before the end of the then-current term.
+
+3. Fees and Payment
+(a) The Client shall pay the fees set out in Schedule B within sixty (60) days of receipt of a valid invoice.
+(b) All fees are exclusive of Goods and Services Tax, which shall be charged at the applicable rate.
+(c) The Client may withhold payment of any amount it disputes in good faith and shall not be liable to pay interest on any amount so withheld.
+(d) The Service Provider shall maintain a dedicated team of not less than twelve (12) engineers for the entire Term, irrespective of the volume of work assigned by the Client.
+
+4. Exclusivity and Non-Competition
+(a) During the Term, the Service Provider shall provide services of the kind described in this Agreement exclusively to the Client and shall not provide similar services to any other retailer in India.
+(b) For a period of three (3) years after termination or expiry of this Agreement, the Service Provider shall not, directly or indirectly, engage in any business that competes with the Client.
+
+5. Non-Solicitation
+During the Term and for a period of two (2) years thereafter, the Service Provider shall not solicit or hire any employee of the Client and shall not solicit any customer of the Client.
+
+6. Intellectual Property
+(a) All Deliverables and all intellectual property rights in them shall vest absolutely in the Client upon creation, and the Service Provider hereby irrevocably assigns to the Client all right, title and interest in the Deliverables, worldwide and in perpetuity.
+(b) The Service Provider grants the Client a perpetual, irrevocable, worldwide, royalty-free licence to use any pre-existing materials of the Service Provider that are incorporated in the Deliverables.
+
+7. Confidentiality
+(a) Each party shall keep confidential all non-public information received from the other party and shall not disclose it to any third party without the prior written consent of the disclosing party.
+(b) The obligations in this clause shall survive termination of this Agreement for a period of five (5) years.
+
+8. Warranties
+(a) The Service Provider warrants that the Services will be performed with reasonable skill and care and that the Deliverables will conform to the agreed specifications for twelve (12) months from acceptance.
+(b) The Client provides all Client materials, data and systems on an "as is" basis and without warranty of any kind.
+
+9. Indemnification
+(a) The Service Provider shall defend, indemnify and hold harmless the Client, its affiliates, directors and employees from and against any and all claims, losses, damages, liabilities, costs and expenses, including legal fees, arising out of or in connection with this Agreement, the Services or the Deliverables.
+(b) The Client shall have no obligation to indemnify the Service Provider for any reason.
+
+10. Limitation of Liability
+(a) The total aggregate liability of the Client under this Agreement shall not exceed the fees paid by the Client in the one (1) month preceding the claim.
+(b) The liability of the Service Provider under this Agreement shall be unlimited, and nothing in this Agreement shall limit or exclude the Service Provider's liability for any loss or damage of any kind.
+
+11. Delivery and Liquidated Damages
+(a) The Service Provider shall deliver each milestone by the date specified in Schedule A.
+(b) For each week of delay in delivery of any milestone, the Service Provider shall pay to the Client liquidated damages equal to five percent (5%) of the total contract value, without the Client being required to prove any actual loss.
+
+12. Audit
+The Client or its auditors may inspect and audit the books, records, premises and systems of the Service Provider at any time on twenty-four (24) hours' notice.
+
+13. Termination
+(a) The Client may terminate this Agreement at any time, without cause and at its sole discretion, by giving thirty (30) days' written notice to the Service Provider.
+(b) The Service Provider may terminate this Agreement only if the Client fails to pay an undisputed invoice for more than ninety (90) days after receiving written notice of the default.
+(c) On termination, the Service Provider shall immediately hand over all Deliverables, whether or not complete, and shall not be entitled to any compensation for work in progress.
+
+14. Change of Control
+If the Service Provider undergoes a change of control, or merges with or is acquired by another entity, the Client may terminate this Agreement immediately by written notice.
+
+15. Assignment
+(a) The Service Provider shall not assign, transfer or subcontract any of its rights or obligations under this Agreement without the prior written consent of the Client.
+(b) The Client may assign this Agreement to any affiliate or successor without the consent of the Service Provider.
+
+16. Non-Disparagement
+The Service Provider shall not make any statement that disparages the Client, its products or its personnel, during the Term or at any time thereafter.
+
+17. Force Majeure
+Neither party shall be liable for any failure or delay in performance caused by events beyond its reasonable control, including natural disasters, war, epidemics or government action, provided that the affected party promptly notifies the other party.
+
+18. Data Protection
+Each party shall comply with the Digital Personal Data Protection Act, 2023 and all other data protection laws applicable to it in connection with this Agreement.
+
+19. Governing Law and Dispute Resolution
+(a) This Agreement shall be governed by and construed in accordance with the laws of India.
+(b) Any dispute arising out of this Agreement shall be referred to arbitration by a sole arbitrator appointed by the Client in accordance with the Arbitration and Conciliation Act, 1996. The seat of arbitration shall be Mumbai.
+(c) The courts at Mumbai shall have exclusive jurisdiction over any matter not referred to arbitration.
+
+20. Notices
+All notices under this Agreement shall be in writing and shall be delivered by hand, by registered post or by email to the address of the receiving party set out above.
+
+21. Stamp Duty
+The stamp duty payable on this Agreement shall be borne entirely by the Service Provider.
+
+22. General
+(a) If any provision of this Agreement is held to be invalid or unenforceable, the remaining provisions shall continue in full force and effect.
+(b) This Agreement constitutes the entire agreement between the parties and supersedes all prior discussions, understandings and agreements relating to its subject matter.
+(c) This Agreement may be executed in counterparts, each of which shall be deemed an original and all of which together shall constitute one instrument.
+(d) This Agreement may be amended only by a written instrument signed by both parties.
+
+Signed for the Client: ____________________
+Signed for the Service Provider: ____________________

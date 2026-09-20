@@ -1,0 +1,31 @@
+<div class="upload-page">
+  <a class="back-link" routerLink="/dashboard">← Back to dashboard</a>
+  <h1>Upload a contract</h1>
+  <p class="upload-subtitle">Supported formats: .txt, .pdf, .docx</p>
+
+  <div
+    class="dropzone"
+    [class.dragging]="isDragging()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+  >
+    @if (selectedFile()) {
+      <p class="selected-file">📄 {{ selectedFile()!.name }}</p>
+    } @else {
+      <p>Drag & drop a file here, or</p>
+    }
+    <label class="file-picker">
+      Choose file
+      <input type="file" accept=".txt,.pdf,.docx" (change)="onFileSelected($event)" hidden />
+    </label>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="form-error">{{ errorMessage() }}</div>
+  }
+
+  <button class="primary-button" [disabled]="!selectedFile() || uploading()" (click)="submit()">
+    {{ uploading() ? 'Analyzing…' : 'Upload & analyze' }}
+  </button>
+</div>

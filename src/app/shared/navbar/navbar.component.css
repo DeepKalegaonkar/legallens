@@ -1,0 +1,168 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.35rem 2rem;
+  background: #12172b;
+  color: #f4f6fb;
+  border-bottom: 1px solid #232a45;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand-mark {
+  display: block;
+  width: 2.75rem;
+  height: 2.75rem;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.brand-accent {
+  color: #8f9bff;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.nav-links a {
+  color: #c3c9e6;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: #ffffff;
+}
+
+.profile {
+  position: relative;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid #3a4270;
+  background: linear-gradient(135deg, #5b6bf9, #8f5bf9);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.avatar:hover,
+.avatar[aria-expanded='true'] {
+  box-shadow: 0 0 0 3px rgba(143, 155, 255, 0.35);
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  min-width: 14rem;
+  padding: 0.4rem;
+  background: #ffffff;
+  border-radius: 0.7rem;
+  box-shadow: 0 12px 30px rgba(10, 14, 35, 0.3);
+  z-index: 50;
+}
+
+.menu-email {
+  padding: 0.5rem 0.75rem 0.6rem;
+  margin-bottom: 0.3rem;
+  border-bottom: 1px solid #ece9e2;
+  color: #666f8f;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu a,
+.menu button {
+  display: block;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: none;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: #12172b;
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nav-links .menu a {
+  color: #12172b;
+}
+
+.menu a:hover,
+.menu button:hover {
+  background: #f1f2fa;
+}
+
+.nav-links a.signup-link {
+  background: linear-gradient(135deg, #5b6bf9, #8f5bf9);
+  color: #ffffff;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+.nav-links a {
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0.9rem 1rem;
+  }
+
+  .brand {
+    gap: 0.5rem;
+  }
+
+  .brand-mark {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .brand-name {
+    font-size: 1.2rem;
+  }
+
+  .nav-links {
+    gap: 0.75rem;
+  }
+
+  .nav-links a {
+    font-size: 0.9rem;
+  }
+
+  .nav-links a.signup-link {
+    padding: 0.45rem 0.8rem;
+  }
+
+  .avatar {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+}

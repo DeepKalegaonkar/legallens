@@ -1,0 +1,123 @@
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 88px);
+  background: var(--page-bg);
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+  max-width: 24rem;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(20, 24, 45, 0.08);
+}
+
+.auth-card h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+  color: #12172b;
+}
+
+.auth-subtitle {
+  margin: 0 0 1rem;
+  color: #666f8f;
+  font-size: 0.9rem;
+}
+
+.auth-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #33395c;
+  margin-top: 0.6rem;
+}
+
+.auth-card input {
+  padding: 0.6rem 0.7rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d7dbea;
+  font-size: 0.95rem;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #5b6bf9;
+  box-shadow: 0 0 0 3px rgba(91, 107, 249, 0.15);
+}
+
+.field-error {
+  color: #c0392b;
+  font-size: 0.8rem;
+  margin-top: -0.2rem;
+}
+
+.form-error {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: #fde8e8;
+  color: #c0392b;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.auth-card button[type='submit'] {
+  margin-top: 1.25rem;
+  padding: 0.65rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #5b6bf9, #8f5bf9);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.auth-card button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666f8f;
+}
+
+.auth-switch a {
+  color: #5b6bf9;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@supports not (view-transition-name: none) {
+  .auth-card {
+    animation: card-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+  }
+}
+
+.auth-card button.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #5b6bf9;
+  font-weight: 600;
+  font-size: inherit;
+  cursor: pointer;
+}

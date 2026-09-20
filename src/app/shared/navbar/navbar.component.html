@@ -1,0 +1,37 @@
+<nav class="navbar">
+  <a class="brand" routerLink="/">
+    <img class="brand-mark" src="https://cdn-icons-png.flaticon.com/512/8206/8206170.png" alt="" />
+    <span class="brand-name">Legal<span class="brand-accent">Lens</span></span>
+  </a>
+
+  @if (isAuthenticated()) {
+    <div class="nav-links">
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/upload" routerLinkActive="active">Upload</a>
+      <div class="profile">
+        <button
+          type="button"
+          class="avatar"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="menuOpen()"
+          aria-label="Open profile menu"
+          (click)="toggleMenu($event)"
+        >
+          {{ initial() }}
+        </button>
+        @if (menuOpen()) {
+          <div class="menu" role="menu">
+            <div class="menu-email">{{ email() }}</div>
+            <a role="menuitem" routerLink="/profile" (click)="closeMenu()">Profile &amp; security</a>
+            <button type="button" role="menuitem" (click)="logout()">Log out</button>
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="nav-links">
+      <a routerLink="/login" routerLinkActive="active">Log in</a>
+      <a class="signup-link" routerLink="/register">Sign up</a>
+    </div>
+  }
+</nav>

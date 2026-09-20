@@ -1,0 +1,62 @@
+<div class="dashboard-page">
+  <div class="dashboard-header">
+    <div>
+      <h1>Your documents</h1>
+      <p>Every contract you've uploaded, at a glance.</p>
+    </div>
+    <a class="primary-button" routerLink="/upload">＋ Upload document</a>
+  </div>
+
+  @if (loading()) {
+    <p class="empty-state">Loading documents…</p>
+  } @else if (loadError()) {
+    <p class="empty-state">Couldn't load your documents. Try refreshing the page.</p>
+  } @else if (documents().length === 0) {
+    <div class="empty-state">
+      <p>No documents yet.</p>
+      <a class="primary-button" routerLink="/upload">Upload your first contract</a>
+    </div>
+  } @else {
+    <div class="document-grid">
+      <a class="card new-card" routerLink="/upload">
+        <span class="new-plus" aria-hidden="true">＋</span>
+        <span>Upload a contract</span>
+      </a>
+
+      @for (document of documents(); track document.id) {
+        <a class="card" [routerLink]="['/documents', document.id]" [attr.data-severity]="topSeverity(document)">
+          <div class="paper">
+            @if (document.preview) {
+              <p class="preview">{{ document.preview }}</p>
+            } @else {
+              <p class="preview empty">No text to preview.</p>
+            }
+          </div>
+
+          <div class="card-body">
+            <h3 class="name" [title]="document.filename">{{ document.filename }}</h3>
+            <p class="meta">
+              {{ document.uploaded_at | date: 'mediumDate' }} · {{ document.clause_count }}
+              {{ document.clause_count === 1 ? 'clause' : 'clauses' }}
+            </p>
+
+            <div class="risk-row">
+              @if (document.status !== 'completed') {
+                <app-status-badge [status]="document.status" />
+              } @else {
+                @for (chip of riskChips(document); track chip.severity) {
+                  <span class="chip" [attr.data-severity]="chip.severity"><strong>{{ chip.count }}</strong> {{ chip.severity }}</span>
+                } @empty {
+                  <span class="chip clear">No specific risks</span>
+                }
+                @if (document.other_flags) {
+                  <span class="chip muted" title="Flagged by the general model only">+{{ document.other_flags }} other</span>
+                }
+              }
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</div>

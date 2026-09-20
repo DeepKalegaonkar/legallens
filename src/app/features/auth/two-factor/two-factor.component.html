@@ -1,0 +1,37 @@
+<div class="auth-page">
+  <form class="auth-card" [formGroup]="form" (ngSubmit)="submit()">
+    <h1>Two-step verification</h1>
+    <p class="auth-subtitle">
+      @if (useRecoveryCode()) {
+        Enter one of the recovery codes you saved when you turned this on.
+      } @else {
+        Open your authenticator app and enter the 6-digit code for LegalLens.
+      }
+    </p>
+
+    <label>
+      {{ useRecoveryCode() ? 'Recovery code' : 'Authentication code' }}
+      <input
+        type="text"
+        formControlName="code"
+        [attr.inputmode]="useRecoveryCode() ? 'text' : 'numeric'"
+        maxlength="16"
+        autocomplete="one-time-code"
+        autofocus
+      />
+    </label>
+
+    @if (errorMessage()) {
+      <div class="form-error">{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" [disabled]="submitting()">{{ submitting() ? 'Verifying…' : 'Verify' }}</button>
+
+    <p class="auth-switch">
+      <button type="button" class="link-button" (click)="toggleRecoveryCode()">
+        {{ useRecoveryCode() ? 'Use my authenticator app instead' : 'Use a recovery code instead' }}
+      </button>
+    </p>
+    <p class="auth-switch"><a routerLink="/login" (click)="cancel()">Back to log in</a></p>
+  </form>
+</div>

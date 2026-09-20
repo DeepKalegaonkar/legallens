@@ -1,0 +1,10 @@
+.page {
+  display: block;
+  view-transition-name: page;
+}
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f3f4fa;
+}

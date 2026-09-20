@@ -1,0 +1,15 @@
+{
+  "dataset": "final_merged_dataset.csv (CUAD-derived clauses + Indian legal-contract-clauses dataset, merged by a prior project's data-prep pipeline)",
+  "train_rows": 8802,
+  "test_rows": 1554,
+  "labels": [
+    "High",
+    "Low",
+    "Medium"
+  ],
+  "metrics": {
+    "accuracy": 0.8751608751608752,
+    "macro_f1": 0.8730105072706457,
+    "micro_f1": 0.8751608751608752
+  }
+}

@@ -1,0 +1,240 @@
+.dashboard-page {
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.8rem;
+  color: #12172b;
+}
+
+.dashboard-header p {
+  margin: 0;
+  color: #666f8f;
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #5b6bf9, #8f5bf9);
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.1rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.empty-state {
+  text-align: center;
+  color: #666f8f;
+  padding: 3rem 1rem;
+  background: #ffffff;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ---------- Grid ---------- */
+
+.document-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  --accent: #e4e0d8;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 1rem;
+  border-top: 4px solid var(--accent);
+  text-decoration: none;
+  color: #12172b;
+  box-shadow: 0 4px 16px rgba(20, 24, 45, 0.06);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(20, 24, 45, 0.13);
+}
+
+.card[data-severity='critical'] {
+  --accent: #7a1f1f;
+}
+
+.card[data-severity='high'] {
+  --accent: #d9534f;
+}
+
+.card[data-severity='medium'] {
+  --accent: #f0a63a;
+}
+
+.card[data-severity='low'] {
+  --accent: #5fb37a;
+}
+
+/* The page thumbnail: the document's opening text, fading out like a sheet of paper. */
+.paper {
+  height: 9.5rem;
+  padding: 1rem 1.1rem 0;
+  background: #fbf9f4;
+  border-bottom: 1px solid #efeae0;
+  overflow: hidden;
+}
+
+.preview {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: #5a5670;
+  -webkit-mask-image: linear-gradient(#000 55%, transparent);
+  mask-image: linear-gradient(#000 55%, transparent);
+}
+
+.preview.empty {
+  font-style: italic;
+  color: #9a96ad;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1.1rem 1.1rem;
+}
+
+.name {
+  margin: 0;
+  font-size: 1.02rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #8891ae;
+}
+
+.risk-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  background: #f3f1ec;
+  color: #5a5670;
+}
+
+.chip[data-severity='critical'] {
+  background: #f3dede;
+  color: #7a1f1f;
+}
+
+.chip[data-severity='high'] {
+  background: #fde8e8;
+  color: #c0392b;
+}
+
+.chip[data-severity='medium'] {
+  background: #fff4e0;
+  color: #a15c00;
+}
+
+.chip[data-severity='low'] {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+.chip.clear {
+  background: #e6f4ea;
+  color: #1e7e34;
+  text-transform: none;
+}
+
+.chip.muted {
+  background: transparent;
+  border: 1px dashed #d7d2c6;
+  color: #8891ae;
+  text-transform: none;
+}
+
+/* ---------- "Upload" tile ---------- */
+
+.new-card {
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 15rem;
+  border-top: 2px dashed #d3cdf5;
+  border-left: 2px dashed #d3cdf5;
+  border-right: 2px dashed #d3cdf5;
+  border-bottom: 2px dashed #d3cdf5;
+  background: rgba(255, 255, 255, 0.55);
+  color: #5b6bf9;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.new-card:hover {
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(91, 107, 249, 0.14);
+}
+
+.new-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  background: #eef0ff;
+  font-size: 1.4rem;
+}
+
+@media (max-width: 520px) {
+  .document-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .new-card {
+    min-height: 8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}

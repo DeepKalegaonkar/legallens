@@ -1,0 +1,25 @@
+{
+  "base_model": "nlpaueb/legal-bert-small-uncased",
+  "max_tokens": 160,
+  "categories": [
+    "Anti-Assignment",
+    "Audit Rights",
+    "Change Of Control",
+    "Covenant Not To Sue",
+    "Exclusivity",
+    "Ip Ownership Assignment",
+    "Irrevocable Or Perpetual License",
+    "Liquidated Damages",
+    "Minimum Commitment",
+    "No-Solicit Of Customers",
+    "No-Solicit Of Employees",
+    "Non-Compete",
+    "Non-Disparagement",
+    "Non-Transferable License",
+    "Revenue/Profit Sharing",
+    "Rofr/Rofo/Rofn",
+    "Termination For Convenience",
+    "Uncapped Liability",
+    "Volume Restriction"
+  ]
+}
