@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Enum, Float, ForeignKey, String, Text
+from sqlalchemy import Enum, Float, ForeignKey, String, Text, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -22,5 +22,7 @@ class RiskFinding(Base):
     severity: Mapped[RiskSeverity] = mapped_column(Enum(RiskSeverity), nullable=False)
     confidence: Mapped[float] = mapped_column(Float, nullable=False)
     explanation: Mapped[str] = mapped_column(Text, nullable=False)
+    # "model" (statistical prediction) or "rule" (deterministic pattern match).
+    source: Mapped[str] = mapped_column(String(20), nullable=False, default="model", server_default=text("'model'"))
 
     clause: Mapped["Clause"] = relationship(back_populates="risks")

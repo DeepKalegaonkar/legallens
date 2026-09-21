@@ -14,6 +14,9 @@ scripts in ml_training/ from real legal-contract corpora:
     on a broader, India-inclusive dataset (CUAD clauses + a real Indian
     legal-contract-clauses dataset). It's optional -- see _load_optional().
 
+On top of the models, services/nlp/rules.py adds deterministic rules for indemnities,
+auto-renewal, one-sided arbitrator appointment and the direction of liability caps.
+
 Raising FileNotFoundError from __init__ for the two required models (rather
 than swallowing it) is intentional: api/deps.py catches it and falls back to
 PlaceholderClauseAnalyzer, so missing/untrained models degrade gracefully
@@ -36,6 +39,7 @@ from app.services.nlp.risk_taxonomy import (
     RISK_CATEGORY_SEVERITY,
     SEVERITY_LABEL_TO_ENUM,
 )
+from app.services.nlp.rules import apply_rules
 from app.services.nlp.segmentation import slugify, split_into_clauses
 
 MODELS_DIR = Path(__file__).parent / "models"
@@ -96,6 +100,7 @@ class TrainedClauseAnalyzer(ClauseAnalyzer):
                 severity_label=severity_labels[i],
                 severity_confidence=severity_confidences[i],
             )
+            risks = apply_rules(text, risks)
             results.append(
                 ClauseResult(
                     text=text,

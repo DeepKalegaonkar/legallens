@@ -28,4 +28,6 @@
   <button class="primary-button" [disabled]="!selectedFile() || uploading()" (click)="submit()">
     {{ uploading() ? 'Analyzing…' : 'Upload & analyze' }}
   </button>
+
+  <app-disclaimer variant="compact" />
 </div>

@@ -5,6 +5,7 @@ import {
   buildStrip,
   clauseExcerpt,
   clauseLabel,
+  confidenceLabel,
   countBySeverity,
   splitFindings,
   typeLabel,
@@ -13,7 +14,7 @@ import {
 let nextId = 1;
 
 function risk(riskType: string, severity: RiskSeverity, confidence: number): RiskFinding {
-  return { id: nextId++, risk_type: riskType, severity, confidence, explanation: 'why' };
+  return { id: nextId++, risk_type: riskType, severity, confidence, explanation: 'why', source: 'model' };
 }
 
 function clause(text: string, risks: RiskFinding[] = [], confidence = 0.8): Clause {
@@ -71,6 +72,19 @@ describe('report utils', () => {
 
     expect(strip.map((s) => s.tier)).toEqual(['key', 'other', 'none']);
     expect(strip.map((s) => s.severity)).toEqual(['medium', 'high', null]);
+  });
+
+  it('shows a percentage for model findings and "Rule match" for rule findings', () => {
+    expect(confidenceLabel(risk('exclusivity', 'medium', 0.784))).toBe('78% confidence');
+    expect(confidenceLabel({ ...risk('auto_renewal', 'medium', 0.9), source: 'rule' })).toBe('Rule match');
+  });
+
+  it('treats rule findings like any other named risk category', () => {
+    const ruleFinding: RiskFinding = { ...risk('indemnification', 'high', 0.9), source: 'rule' };
+    const { key, other } = splitFindings(buildFindings([clause('9(a) The provider shall indemnify', [ruleFinding])]));
+
+    expect(key).toHaveLength(1);
+    expect(other).toHaveLength(0);
   });
 
   it('does not present a low-confidence clause type as fact', () => {

@@ -33,6 +33,28 @@ def test_sample_agreement_named_risks_are_found_on_the_right_clauses(results):
     assert "anti_assignment" in found["15(a)"]
 
 
+def test_rule_layer_finds_what_the_models_have_no_category_for(results):
+    found = risk_types_by_label(results["clauses"])
+
+    assert "auto_renewal" in found["2(b)"]
+    assert "indemnification" in found["9(a)"]
+    assert "unilateral_arbitrator_appointment" in found["19(b)"]
+
+
+def test_rule_layer_reads_the_direction_of_liability_clauses(results):
+    found = risk_types_by_label(results["clauses"])
+
+    assert "uncapped_liability" not in found["10(a)"], "a cap must not be reported as uncapped"
+    assert "uncapped_liability" in found["10(b)"], "truly unlimited liability must be caught"
+
+
+def test_rule_findings_are_labelled_as_rules(results):
+    by_type = {risk.risk_type: risk.source for clause in results["clauses"] for risk in clause.risks}
+
+    assert by_type["auto_renewal"] == "rule"
+    assert by_type["exclusivity"] == "model"
+
+
 def test_routine_boilerplate_is_not_flagged_with_a_named_risk(results):
     found = risk_types_by_label(results["clauses"])
 

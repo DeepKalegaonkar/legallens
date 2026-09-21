@@ -1,3 +1,14 @@
+# `docker compose up --build`  runs the whole app:
+#   frontend  http://localhost:4200
+#   backend   http://localhost:8000  (API docs at /docs)
+#   postgres  localhost:5432
+#
+# For local development, run only the database and start the API and Angular
+# yourself:  docker compose up -d postgres
+#
+# The credentials and JWT secret below are for local use only. Change them
+# (set JWT_SECRET_KEY in your environment or a .env file) before deploying.
+
 services:
   postgres:
     image: postgres:16
@@ -10,6 +21,37 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d clause_platform"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@postgres:5432/clause_platform
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-local-dev-only-change-me-before-deploying}
+      CORS_ORIGINS: http://localhost:4200
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: .
+    restart: unless-stopped
+    environment:
+      # Angular's server refuses requests whose Host isn't listed. Add your own
+      # domain here (comma-separated) when you deploy.
+      NG_ALLOWED_HOSTS: localhost,127.0.0.1
+    ports:
+      - "4200:4000"
+    depends_on:
+      backend:
+        condition: service_healthy
 
 volumes:
   postgres_data:

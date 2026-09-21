@@ -7,6 +7,8 @@ export interface RiskFinding {
   severity: RiskSeverity;
   confidence: number;
   explanation: string;
+  // 'model' is a statistical prediction; 'rule' is a fixed pattern match.
+  source: 'model' | 'rule';
 }
 
 export interface Clause {

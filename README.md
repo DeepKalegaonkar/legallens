@@ -1,5 +1,7 @@
 # LegalLens
 
+[![CI](https://github.com/DeepKalegaonkar/legallens/actions/workflows/ci.yml/badge.svg)](https://github.com/DeepKalegaonkar/legallens/actions/workflows/ci.yml)
+
 Upload a contract, get it cut into clauses, and see which ones are risky.
 LegalLens classifies each clause, flags risks across 19 categories, and turns
 the result into a findings-first report.
@@ -12,7 +14,9 @@ the result into a findings-first report.
 - **Segments** it into clauses (numbered headings, `(a)`/`(b)` sub-points, paragraphs).
 - **Classifies** each clause into one of 100 types (trained on LEDGAR).
 - **Detects risk** in 19 categories such as uncapped liability, termination for
-  convenience, non-compete and anti-assignment (trained on CUAD).
+  convenience, non-compete and anti-assignment (trained on CUAD), plus a rule layer
+  for indemnities, auto-renewal, one-sided arbitrator appointment and whether a
+  liability clause is capped or unlimited.
 - **Reports** an overall verdict, a heat-strip of the document, key findings
   ranked by severity, and the full clause list.
 - **Accounts:** JWT login with bcrypt passwords, plus optional two-step
@@ -30,12 +34,19 @@ whole, never split between train and test):
 | Legal-BERT alone | 0.54 | 0.66 / 0.63 / 0.64 |
 | **Blend of both (shipped)** | **0.57** | **0.68 / 0.66 / 0.67** |
 
-Precision is a lower bound because CUAD labels only some categories. Known
-weak spots: no category for indemnities, auto-renewal or one-sided arbitrator
-appointment, and risk is judged without knowing which party you are. Details,
-the pipeline and the retraining steps are in [backend/README.md](backend/README.md).
+Precision is a lower bound because CUAD labels only some categories. The
+indemnity, auto-renewal, arbitrator and liability-direction findings come from
+deterministic rules layered on top of the models; they are unit-tested but not
+scored on this benchmark. Risk is judged without knowing which party you are.
+Details, the pipeline and the retraining steps are in [backend/README.md](backend/README.md).
 
-This is a decision aid, not legal advice.
+## Human judgement has the final say
+
+LegalLens reads every clause in seconds and shows you where to look. It can't
+know your goals, your bargaining position or the law that applies to you, but a
+person can. Treat its findings as a well-organised starting point: human
+judgement, ideally a qualified lawyer's, should always have the final word on a
+contract. It is a decision aid, not legal advice.
 
 ## Project layout
 
@@ -46,16 +57,32 @@ backend/app/        FastAPI app (api routes, models, schemas, crud, core, servic
 backend/ml_training training and evaluation scripts for the models
 backend/tests/      pytest suite
 samples/            a fictional sample agreement (.txt and .pdf) to try
-docker-compose.yml  PostgreSQL for local development
+Dockerfile          frontend image (backend/Dockerfile is the API image)
+docker-compose.yml  PostgreSQL, backend and frontend
+.github/workflows/  CI: backend tests, frontend tests and build, Docker build
 ```
 
 ## Running it locally
 
+### Option 1: everything in Docker
+
+You only need Docker Desktop.
+
+```bash
+docker compose up --build
+```
+
+Then open http://localhost:4200 (API docs at http://localhost:8000/docs). Set
+`JWT_SECRET_KEY` in your environment or a `.env` file first if this is anything
+more than a local trial.
+
+### Option 2: run the pieces yourself (development)
+
 You need Node.js, Python 3 and Docker Desktop (for PostgreSQL). Developed on Node 24 and Python 3.14.
 
 ```bash
-# 1. Database (repo root)
-docker compose up -d
+# 1. Database only (repo root)
+docker compose up -d postgres
 
 # 2. Backend
 cd backend
@@ -71,7 +98,7 @@ npm install
 ng serve                          # http://localhost:4200
 ```
 
-Register an account, then upload `samples/sample_services_agreement.pdf`.
+Either way, register an account, then upload `samples/sample_services_agreement.pdf`.
 
 The trained models are committed under `backend/app/services/nlp/models/`
 (about 70 MB), so nothing needs training to run the app.
@@ -79,14 +106,15 @@ The trained models are committed under `backend/app/services/nlp/models/`
 ## Tests
 
 ```bash
-cd backend && pytest        # API, segmentation, analyzer and 2FA tests (temporary SQLite)
+cd backend && pytest        # API, segmentation, analyzer, rule and 2FA tests (temporary SQLite)
 ng test                     # Angular unit tests
 ```
 
 ## Security notes
 
-- The `postgres`/`postgres` credentials in `docker-compose.yml` are for local
-  development only. Change them and `JWT_SECRET_KEY` before deploying anywhere.
+- The `postgres`/`postgres` credentials and the default JWT secret in `docker-compose.yml`
+  are for local use only. Change them (and set `NG_ALLOWED_HOSTS` to your domain)
+  before deploying anywhere.
 - Failed two-step verification attempts are rate limited in memory, so the limit
   is per server process. Use a shared store such as Redis if you run several workers.
 - Uploaded contracts are stored in your database. Do not upload confidential
@@ -95,7 +123,7 @@ ng test                     # Angular unit tests
 ## Not built yet
 
 Alembic migrations (new columns are added on startup instead), background
-processing for large files, CI, and deployment.
+processing for large files, and a hosted deployment.
 
 ## Data and models
 

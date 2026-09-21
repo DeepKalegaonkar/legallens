@@ -13,10 +13,11 @@ pip install -r requirements.txt
 copy .env.example .env       # then edit JWT_SECRET_KEY, etc.
 ```
 
-Start Postgres (from the repo root, requires Docker Desktop):
+Start Postgres (from the repo root, requires Docker Desktop). To run the API and
+frontend in containers too, see "Running it locally" in the root README:
 
 ```bash
-docker compose up -d
+docker compose up -d postgres
 ```
 
 Run the API:
@@ -74,7 +75,7 @@ python backend/scripts/restore_db.py                  # restores the latest back
 python backend/scripts/restore_db.py path/to/dump.sql  # restores a specific one
 ```
 
-Both scripts require the `postgres` container to be running (`docker compose up -d`).
+Both scripts require the `postgres` container to be running (`docker compose up -d postgres`).
 
 ## Sample contracts
 
@@ -112,6 +113,17 @@ The NLP layer sits behind the `ClauseAnalyzer` interface
    has no "not risky" class and is noisy, so the report keeps these apart under
    "Also worth a look". It never overrides a named category's curated severity.
 
+5. **Rules** (`rules.py`) run after the models, for what a statistical model
+   handles badly. They add findings for **indemnification**, **auto-renewal**
+   and **one-sided arbitrator appointment** (none of which CUAD labels), and
+   they read the *direction* of a liability clause: a "shall not exceed" cap
+   removes the model's uncapped-liability flag, and "shall be unlimited" adds
+   one the model missed. Findings from rules carry `source = "rule"` (models
+   carry `"model"`), and the report shows "Rule match" instead of a
+   probability. The rules are pattern matches covered by unit tests
+   (`tests/test_rules.py`) and the sample agreement; unlike the models they
+   have **not** been scored on a held-out set of contracts.
+
 `placeholder.py` (regex/keyword) is a fallback: `api/deps.py` uses it if the
 required model files are missing.
 
@@ -131,10 +143,9 @@ CUAD only labels 41 categories.
 The gap between the two models is small on CUAD but large on documents
 unlike it: on an Indian commercial lease, TF-IDF finds one named risk and
 Legal-BERT finds the assignment restriction and the terminate-anytime clause.
-Known weak spots: no category for indemnities, auto-renewal or one-sided
-arbitrator appointment; it can pick the wrong one of a matching pair of
-clauses (a liability cap versus an uncapped liability); risk is judged without
-knowing which party you are.
+The table is the models alone; the rule layer sits on top of it. Known weak
+spots: the rules only recognise common phrasings, so unusual wording can slip
+past them; risk is judged without knowing which party you are.
 
 ### Retraining / reproducing the models
 

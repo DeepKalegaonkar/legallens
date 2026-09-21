@@ -1,13 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { DocumentService } from '../../core/services/document.service';
+import { DisclaimerComponent } from '../../shared/disclaimer/disclaimer.component';
 
 const ALLOWED_EXTENSIONS = ['.txt', '.pdf', '.docx'];
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, DisclaimerComponent],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.css',
 })

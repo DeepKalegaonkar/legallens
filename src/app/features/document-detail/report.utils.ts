@@ -47,6 +47,11 @@ export function riskTitle(riskType: string): string {
   return riskType === GENERAL_RISK_TYPE ? 'Potentially risky language' : humanize(riskType);
 }
 
+// A rule either matches or it doesn't, so it has no probability to show.
+export function confidenceLabel(risk: RiskFinding): string {
+  return risk.source === 'rule' ? 'Rule match' : `${Math.round(risk.confidence * 100)}% confidence`;
+}
+
 export function buildFindings(clauses: Clause[]): Finding[] {
   return clauses.flatMap((clause) =>
     clause.risks.map((risk) => ({

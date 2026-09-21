@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DocumentService } from '../../core/services/document.service';
 import { DocumentDetail, RiskSeverity } from '../../core/models/document.model';
 import { RiskBadgeComponent } from '../../shared/risk-badge/risk-badge.component';
+import { DisclaimerComponent } from '../../shared/disclaimer/disclaimer.component';
 import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.component';
 import {
   Finding,
@@ -11,6 +12,7 @@ import {
   buildStrip,
   clauseExcerpt,
   clauseLabel,
+  confidenceLabel,
   countBySeverity,
   riskTitle,
   splitFindings,
@@ -30,7 +32,7 @@ const HEADLINES: Record<RiskSeverity, string> = {
 @Component({
   selector: 'app-document-detail',
   standalone: true,
-  imports: [RouterLink, RiskBadgeComponent, StatusBadgeComponent],
+  imports: [RouterLink, DisclaimerComponent, RiskBadgeComponent, StatusBadgeComponent],
   templateUrl: './document-detail.component.html',
   styleUrl: './document-detail.component.css',
 })
@@ -53,6 +55,7 @@ export class DocumentDetailComponent {
   readonly clauseLabel = clauseLabel;
   readonly clauseExcerpt = clauseExcerpt;
   readonly riskTitle = riskTitle;
+  readonly confidenceLabel = confidenceLabel;
   readonly typeLabel = typeLabel;
   readonly topSeverity = topSeverity;
 

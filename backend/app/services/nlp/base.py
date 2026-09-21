@@ -10,6 +10,8 @@ class RiskResult:
     severity: RiskSeverity
     confidence: float
     explanation: str
+    # "model" for a statistical prediction, "rule" for a deterministic pattern match.
+    source: str = "model"
 
 
 @dataclass

@@ -32,3 +32,23 @@ def test_running_it_twice_is_harmless(tmp_path):
 
     add_missing_columns(engine, Base.metadata)
     add_missing_columns(engine, Base.metadata)
+
+
+def test_existing_findings_gain_the_source_column_defaulting_to_model(tmp_path):
+    engine = create_engine(f"sqlite:///{tmp_path / 'old_findings.db'}")
+    with engine.begin() as connection:
+        connection.execute(
+            text(
+                "CREATE TABLE risk_findings (id INTEGER PRIMARY KEY, clause_id INTEGER NOT NULL, "
+                "risk_type VARCHAR(100) NOT NULL, severity VARCHAR(8) NOT NULL, "
+                "confidence FLOAT NOT NULL, explanation TEXT NOT NULL)"
+            )
+        )
+        connection.execute(
+            text("INSERT INTO risk_findings VALUES (1, 1, 'exclusivity', 'MEDIUM', 0.8, 'why')")
+        )
+
+    add_missing_columns(engine, Base.metadata)
+
+    with engine.connect() as connection:
+        assert connection.execute(text("SELECT source FROM risk_findings")).scalar_one() == "model"

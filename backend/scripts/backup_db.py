@@ -5,7 +5,7 @@ dump to backend/backups/ on the host. Keeps only the most recent
 MAX_BACKUPS_TO_KEEP dumps to avoid unbounded disk growth.
 
 Run from the repo root or backend/, with the postgres container up
-(`docker compose up -d`):
+(`docker compose up -d postgres`):
     python backend/scripts/backup_db.py
 """
 
@@ -43,7 +43,7 @@ def main() -> None:
     if result.returncode != 0:
         destination.unlink(missing_ok=True)
         print(result.stderr.decode(errors="replace"), file=sys.stderr)
-        print("Backup FAILED. Is the postgres container running? (docker compose up -d)", file=sys.stderr)
+        print("Backup FAILED. Is the postgres container running? (docker compose up -d postgres)", file=sys.stderr)
         sys.exit(1)
 
     size_kb = destination.stat().st_size / 1024

@@ -41,6 +41,7 @@ def save_analysis_results(db: Session, document: Document, clause_results: list[
                     severity=risk.severity,
                     confidence=risk.confidence,
                     explanation=risk.explanation,
+                    source=risk.source,
                 )
             )
             risk_counts[risk.severity.value] += 1

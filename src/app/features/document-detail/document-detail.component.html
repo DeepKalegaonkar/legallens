@@ -48,6 +48,8 @@
       </div>
     </section>
 
+    <app-disclaimer />
+
     <section class="map">
       <div class="section-head">
         <h2>Where the risk sits</h2>
@@ -96,7 +98,11 @@
           <div class="finding-top">
             <app-risk-badge [severity]="finding.risk.severity" />
             <h3>{{ riskTitle(finding.risk.risk_type) }}</h3>
-            <span class="confidence">{{ percent(finding.risk.confidence) }} confidence</span>
+            <span
+              class="confidence"
+              [attr.title]="finding.risk.source === 'rule' ? 'Detected by a fixed pattern rule, not a model prediction' : null"
+              >{{ confidenceLabel(finding.risk) }}</span
+            >
           </div>
           <p class="why">{{ finding.risk.explanation }}</p>
           <blockquote class="excerpt" [class.clamped]="!isExpanded(finding.risk.id)">{{ finding.excerpt }}</blockquote>

@@ -11,3 +11,4 @@ class RiskOut(BaseModel):
     severity: RiskSeverity
     confidence: float
     explanation: str
+    source: str = "model"
