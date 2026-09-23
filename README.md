@@ -8,6 +8,27 @@ the result into a findings-first report.
 
 **Stack:** Angular 22 · FastAPI · PostgreSQL · scikit-learn + Legal-BERT (ONNX)
 
+- Risk detection is a real ensemble (TF-IDF + fine-tuned Legal-BERT) trained on
+  CUAD/LEDGAR and scored on 102 held-out contracts, not a keyword matcher —
+  see [how well it works](#how-well-the-risk-model-works) below.
+- Full auth: JWT sessions, bcrypt, optional TOTP two-factor with recovery
+  codes, and rate limiting on login and 2FA attempts.
+- Containerized (Docker Compose: Postgres + API + frontend) with CI running
+  the backend, frontend and Docker builds on every push.
+
+## Screenshots
+
+<table>
+<tr>
+<td><img src="docs/screenshots/home.png" width="420" alt="Home page"><br><sub>Home</sub></td>
+<td><img src="docs/screenshots/report.png" width="420" alt="Findings-first report page"><br><sub>Findings-first report</sub></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/dashboard.png" width="420" alt="Dashboard"><br><sub>Dashboard</sub></td>
+<td><img src="docs/screenshots/upload.png" width="420" alt="Upload page"><br><sub>Upload</sub></td>
+</tr>
+</table>
+
 ## What it does
 
 - **Upload** a `.pdf`, `.docx` or `.txt` contract.
@@ -106,7 +127,7 @@ The trained models are committed under `backend/app/services/nlp/models/`
 ## Tests
 
 ```bash
-cd backend && pytest        # API, segmentation, analyzer, rule and 2FA tests (temporary SQLite)
+cd backend && pytest        # 56 tests: API, auth, segmentation, analyzer, rule and 2FA (temporary SQLite)
 ng test                     # Angular unit tests
 ```
 

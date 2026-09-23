@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.angular/
+.git/
+.vscode/
+backend/
+samples/
+screenshots/
+*.md
+docker-compose.yml

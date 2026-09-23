@@ -67,4 +67,5 @@ backend/.env.*
 # Local tooling / scratch
 .claude/
 screenshots/
+!docs/screenshots/
 *.tsbuildinfo
